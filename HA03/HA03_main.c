@@ -55,12 +55,13 @@ int main()
         printf("0... quit\n");
         int debug = scanf("%d", &FLAGG);
 
-        if(debug == 0){
+        if(debug == 0)              //Debugging protects int vars from different vartypes
+        {
            fflush(stdin);
            FLAGG = 8; 
         }
 
-        //system("cls"); // cls for windows
+        system("cls"); // cls for windows
 
         switch (FLAGG)
         {

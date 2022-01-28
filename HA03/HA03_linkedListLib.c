@@ -4,8 +4,7 @@
 #include "HA03_linkedListLib.h"
 
 void addListElem(listElement *start)
-{
-    
+{ 
     listElement *new;
     new = (listElement *)malloc(sizeof(listElement));
     if (new == NULL)
@@ -27,7 +26,8 @@ void addListElem(listElement *start)
     scanf("%s", new->firstName);
     printf("Please enter age: \n");
     int debug = scanf("%d", &(new->age));
-    if(debug == 0){
+    if(debug == 0)
+    {
         fflush(stdin);
         printf("please enter a number");   
     } 
@@ -36,7 +36,6 @@ void addListElem(listElement *start)
 
 void printList(listElement *start)
 {
-
     if (start->nextElem == NULL)
         printf("List is empty.\n");
     else
@@ -60,7 +59,6 @@ void printList(listElement *start)
 
 void delListElem(listElement *start)
 {
-    /* YOUR CODE HERE */
     listElement *currElem = start;
     listElement *del;
     int delElement;
@@ -69,28 +67,25 @@ void delListElem(listElement *start)
     printf("Please enter the Element you wish to delete : \n");
     int debug = scanf("%d", &delElement);
 
-    if(debug == 0){
+    if(debug == 0)
+    {
         fflush(stdin);
         printf("please enter a number");   
     } 
 
-    for(int i = 0; i < delElement; i++){
+    for(int i = 0; i < delElement; i++)
+    {
         currElem = currElem->nextElem; // get last elem in list
     }
 
-    del = currElem->nextElem;
-    currElem->nextElem = del->nextElem;
-    
-    /* ---------------*/
+    del = currElem->nextElem;                   //Skip the element you with to delete by redirecting pointer
+    currElem->nextElem = del->nextElem; 
+    free(del);
 }
 
 void delList(listElement *start)
 {
-
-    /* YOUR CODE HERE */
-    start->nextElem = NULL;
-    /* ---------------*/
-
+    start->nextElem = NULL;     //redirect pointer to NULL
 }
 
 int getLenOfList(listElement *start)
@@ -108,31 +103,27 @@ int getLenOfList(listElement *start)
 
 void saveList(listElement *start)
 {
-
-    /* YOUR CODE HERE */
-    char filename[50]; 
-    printf("Please enter the filename you wish to safe as: \n");
-    scanf("%s", filename);
     listElement *currElem = start;
     FILE *fPtr;
+    char filename[50]; 
 
-    fPtr = fopen(strcat(filename, ".txt"), "w");
+    printf("Please enter the filename you wish to safe as: \n");
+    scanf("%s", filename);
+
+    fPtr = fopen(strcat(filename, ".txt"), "w");            //openFile
     fprintf(fPtr, "%d\n", getLenOfList);
-    for(int i = 0; i < getLenOfList(start); i++) {
-        currElem = currElem->nextElem;
+    for(int i = 0; i < getLenOfList(start); i++) 
+    {
+        currElem = currElem->nextElem;                      //write List into File
         fprintf(fPtr, "%s\t", currElem->lastName);
         fprintf(fPtr, "%s\t", currElem->firstName);
         fprintf(fPtr, "%d\t", currElem->age);
-        printf("chicken\n"); //debugline
     }
     fclose(fPtr);
-    /* ---------------*/
 }
 
 void loadList(listElement *start)
 {
-
-    /* YOUR CODE HERE*/ 
     char chosenfile[50];
     int len;
     listElement *currElem = start;
@@ -142,21 +133,20 @@ void loadList(listElement *start)
     printf("Please enter the filename you wish to safe in the list: \n");
     scanf("%s", chosenfile);
 
-    fPtr = fopen(chosenfile, "r");
+    fPtr = fopen(chosenfile, "r");                      //openFile
 
     if (fPtr == NULL){
         printf("Unable to access file.\n");
-    } else {
-        fscanf(fPtr,"%d",&len);
-        printf("len : %d\n", len);          //bugline
-        currElem = currElem->nextElem;
-        for(int i = 0; i < len ; i++){
+    } else 
+    {
+        fscanf(fPtr,"%d",&len);                         //write Text form .txt into ListElement
+        currElem = currElem->nextElem;                  
+        for(int i = 0; i < len ; i++)
+        {
             fscanf(fPtr, "%s %s %d", currElem->lastName, currElem->firstName, &currElem->age);
             currElem = currElem->nextElem;
-            printf("test\n"); //debugline
         }
     }
-    /* ---------------*/
 
     printf("loading data will be append to current list...\n");
     printList(start); // show loaded list
@@ -169,11 +159,13 @@ void exitFcn(listElement *start)
     printf("If yes type 1. If no type 0\n");
     int debug = scanf("%d", &safe);
 
-    if(debug == 0){
+    if(debug == 0)
+    {
         fflush(stdin);
         printf("please enter a number");   
     } 
-    if (safe == 1){
+    if (safe == 1)              //if you want to save the List execute saveList
+    {
         saveList(start); 
     } 
 }
